@@ -12,6 +12,13 @@
       index: index,
     });
   }; 
+
+  const handleChange = (index, new_status) => {
+    dispatch("handleChange", {
+      index: index,
+      status: !new_status,
+    });
+  }
 </script>
 
 <style>
@@ -23,7 +30,7 @@
 
 <Row class="mt-2 mb-2">
   <Col class="ml-5" md={{ size: 4 }}>
-    <Input bind:checked={status} type="checkbox"/>
+    <Input bind:checked={status} type="checkbox" on:change={handleChange(index, status)}/>
     <span class:checked={status}>{title}</span>
   </Col>
   <Col class="mr-5" md={{ size: 2 }}>

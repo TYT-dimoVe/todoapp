@@ -23,6 +23,11 @@
     todoList.splice(event.detail.index, 1);
     todoList = todoList;
   };
+
+  const handleChange = (event) => {
+    todoList[event.detail.index].status = event.detail.status;
+    todoList = todoList;
+  }
 </script>
 
 <svelte:head>
@@ -37,7 +42,7 @@
     <Col class="d-flex flex-column sm-12 col-md-8 mt-5">
       <Container class="md-5 col-lg-offset-4">
         <Filter bind:searchTerm />
-        <ListItem bind:filteredList on:removeFromList={removeFromList} />
+        <ListItem bind:filteredList on:removeFromList={removeFromList} on:handleChange={handleChange}/>
         <AddItem on:handleKeyup={addToList} on:addToList={addToList} />
       </Container>
     </Col>
