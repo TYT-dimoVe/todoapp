@@ -11,7 +11,7 @@
     dispatch("removeFromList", {
       index: index,
     });
-  };
+  }; 
 </script>
 
 <style>
@@ -23,13 +23,15 @@
 
 <Row class="mt-2 mb-2">
   <Col class="ml-5" md={{ size: 4 }}>
-    <Input bind:checked={status} type="checkbox" />
+    <Input bind:checked={status} type="checkbox"/>
     <span class:checked={status}>{title}</span>
   </Col>
   <Col class="mr-5" md={{ size: 2 }}>
-    <Button color="danger" outline on:click={() => removeFromList(index)}>
-      Delete
-    </Button>
+    {#if status === false }
+      <Button color="danger" outline on:click={() => removeFromList(index)}>
+        Delete
+      </Button>
+    {/if}
   </Col>
   <br />
 </Row>

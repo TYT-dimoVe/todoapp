@@ -18,7 +18,7 @@
   <Col md={{ size: 6 }}>
     <Input
       bind:value={searchTerm}
-      on:keypress={handleKeyup}
+      on:keyup={handleKeyup}
       type="text"
       name="textarea"
       id="exampleSearch"
