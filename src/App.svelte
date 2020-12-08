@@ -1,50 +1,29 @@
 <script>
-  import Item from "./components/Item.svelte";
-  import { Col, Button, Row, Input, Container, Form } from "sveltestrap";
-
-  let newItem = "";
-
-  let todoList = [
-    { text: "Write my first post", status: false },
-    { text: "Upload the post to the blog", status: false },
-    { text: "Publish the post at Facebook", status: false },
-  ];
+  import { Col, Container, Row } from "sveltestrap";
+  import AddItem from "./components/AddItem.svelte";
+  import Filter from "./components/Filter.svelte";
+  import ListItem from "./components/ListItem.svelte";
 
   let searchTerm = "";
+  let todoList = [
+    { title: "Write my first post", status: false },
+    { title: "Write my second post", status: false },
+    { title: "Write my third post", status: false },
+  ];
 
   $: filteredList = todoList.filter(
-    (item) => item.text.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
+    (item) => item.title.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
   );
 
-  const addToList = () => {
-    if (/\S+/.test(newItem)) {
-      todoList = [...todoList, { text: newItem, status: false }];
-      newItem = "";
-    }
+  const addToList = (event) => {
+    todoList = [...todoList, { title: event.detail.newItem, status: false }];
   };
 
   const removeFromList = (event) => {
     todoList.splice(event.detail.index, 1);
     todoList = todoList;
   };
-
-  const handleKeyup = () => {
-    if (event.code == "Enter" && /\S+/.test(newItem)) {
-      todoList = [...todoList, { text: newItem, status: false }];
-      newItem = "";
-    }
-  };
-
-  const clearFilter = () => {
-    searchTerm = "";
-  };
 </script>
-
-<style>
-  hr.dashed {
-    border-top: 1px dashed #999;
-  }
-</style>
 
 <svelte:head>
   <link
@@ -57,45 +36,9 @@
     <Col />
     <Col class="d-flex flex-column sm-12 col-md-8 mt-5">
       <Container class="md-5 col-lg-offset-4">
-        <h4>Filter tasks (by name)</h4>
-        <Row>
-          <Col md={{ size: 6 }}>
-            <Input
-              bind:value={searchTerm}
-              type="text"
-              name="textarea"
-              id="exampleSearch"
-              placeholder="Filter tasks" />
-          </Col>
-          <Col md={{ size: 2 }}>
-            <Button on:click={clearFilter}>Clear</Button>
-          </Col>
-        </Row>
-        <br />
-        <h4>TODO</h4>
-        {#each filteredList as item, index}
-          <Item {...item} {index} on:removeFromList={removeFromList} />
-          {#if index !== filteredList.length - 1}
-            <Col md={{ size: 7 }}>
-              <hr class="dashed" />
-            </Col>
-          {/if}
-        {/each}
-
-        <h4>ADD ITEM</h4>
-        <Row>
-          <Col md={{ size: 6 }}>
-            <Input
-              bind:value={newItem}
-              on:keypress={handleKeyup}
-              id="addItem"
-              type="text"
-              placeholder="New todo item.." />
-          </Col>
-          <Col md={{ size: 2 }}>
-            <Button color="primary" on:click={addToList}>Add</Button>
-          </Col>
-        </Row>
+        <Filter bind:searchTerm />
+        <ListItem bind:filteredList on:removeFromList={removeFromList} />
+        <AddItem on:handleKeyup={addToList} on:addToList={addToList} />
       </Container>
     </Col>
     <Col />
