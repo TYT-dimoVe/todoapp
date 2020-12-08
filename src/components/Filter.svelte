@@ -5,6 +5,12 @@
   const clearFilter = () => {
     searchTerm = "";
   };
+
+  const handleKeyup = (e) => {
+    if (e.keyCode === 27) {
+      searchTerm = "";
+    }
+  };
 </script>
 
 <h5>Filter tasks (by name)</h5>
@@ -12,6 +18,7 @@
   <Col md={{ size: 6 }}>
     <Input
       bind:value={searchTerm}
+      on:keypress={handleKeyup}
       type="text"
       name="textarea"
       id="exampleSearch"
